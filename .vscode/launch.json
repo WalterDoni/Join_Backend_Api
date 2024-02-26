@@ -5,6 +5,16 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Python Debugger: Django",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}\\join_backend_api\\manage.py",
+            "args": [
+                "runserver"
+            ],
+            "django": true
+        },
+        {
             "name": "Python Debugger: Current File",
             "type": "debugpy",
             "request": "launch",
