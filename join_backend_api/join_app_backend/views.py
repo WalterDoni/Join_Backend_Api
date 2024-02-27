@@ -6,10 +6,10 @@ from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.views import View
-from .serializer import UserSerializer
+from .serializer import UserSerializer, ContactSerializer
 import json 
 from django.http import HttpResponse
-
+from .models import  *
 
 class LoginView(ObtainAuthToken):
     
@@ -51,3 +51,19 @@ class SignupView(View):
             return HttpResponse('User succesfully created')
         except Exception as e:
             return HttpResponse(str(e))
+        
+
+class ContactsView(View):
+    
+    def get(self, request):
+        contacts = ContactModel.objects.all()
+        serializer = ContactSerializer(contacts, many = True)
+        return JsonResponse(serializer.data, safe=False)
+    
+    def post(self, request):
+     data = json.loads(request.body.decode('utf-8'))
+     serializer = ContactSerializer(data=data)
+     if serializer.is_valid():
+         serializer.save()
+         return JsonResponse(serializer.data, status=201)  
+     return JsonResponse(serializer.errors, status=400)
