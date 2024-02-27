@@ -6,7 +6,7 @@ from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.views import View
-from .serializer import UserSerializer, ContactSerializer
+from .serializer import *
 import json 
 from django.http import HttpResponse
 from .models import  *
@@ -61,9 +61,17 @@ class ContactsView(View):
         return JsonResponse(serializer.data, safe=False)
     
     def post(self, request):
-     data = json.loads(request.body.decode('utf-8'))
+     data = json.loads(request.body)
      serializer = ContactSerializer(data=data)
      if serializer.is_valid():
          serializer.save()
          return JsonResponse(serializer.data, status=201)  
      return JsonResponse(serializer.errors, status=400)
+ 
+ 
+class TaskView(View):
+     
+    def get(self, request):
+        tasks = TaskModel.objects.all()
+        serializer = TaskSerializer(tasks, many = True)
+        return JsonResponse(serializer.data, safe = False)
