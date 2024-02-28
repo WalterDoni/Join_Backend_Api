@@ -68,10 +68,42 @@ class ContactsView(View):
          return JsonResponse(serializer.data, status=201)  
      return JsonResponse(serializer.errors, status=400)
  
- 
+  
+class UpdateContactView(View):
+    
+    def get_object(self, pk):
+        try:
+            return ContactModel.objects.get(pk=pk)
+        except ContactModel.DoesNotExist:
+            return None
+   
+    def patch(self, request, pk):
+        contact = self.get_object(pk)
+        data = json.loads(request.body)
+        serializer = ContactSerializer(contact, data=data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data)
+        return JsonResponse(serializer.errors, status=400)     
+    
+      
 class TaskView(View):
-     
-    def get(self, request):
-        tasks = TaskModel.objects.all()
-        serializer = TaskSerializer(tasks, many = True)
-        return JsonResponse(serializer.data, safe = False)
+       
+    def get_object(self, pk):
+        try:
+            return TaskModel.objects.get(pk=pk)
+        except TaskModel.DoesNotExist:
+            return None
+          
+    def get(self, request, pk):
+        task = self.get_object(pk)
+        serializer = TaskSerializer(task)
+        return JsonResponse(serializer.data)
+    
+    def post(self, request):
+        data = json.loads(request.body)
+        serializer = TaskSerializer(data=data)
+        if serializer.is_valid():
+           serializer.save()
+           return JsonResponse(serializer.data, status=201)  
+        return JsonResponse(serializer.errors, status=400)
