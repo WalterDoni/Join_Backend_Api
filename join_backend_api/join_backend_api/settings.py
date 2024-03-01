@@ -26,10 +26,26 @@ SECRET_KEY = 'django-insecure-@oh8pp$=_lvbf$5bd72pnp^wex%pe@0==qp)e^pr8%gdn8*oy2
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'localhost',
-    '127.0.0.1'
+       'localhost', '127.0.0.1', '127.0.0.1:8000', '127.0.0.1:5500', 'walter91.pythonanywhere.com'
 ]
 
+CORS_ALLOWED_ORIGINS = [ 'http://127.0.0.1:5500', 'http://localhost:5500' ]
+
+CORS_ORIGIN_ALLOW_ALL = True 
+
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+    'body',  # Add 'body' to the list of allowed headers
+]
+# App
 
 # Application definition
 
@@ -43,6 +59,7 @@ INSTALLED_APPS = [
     'join_app_backend',
     'rest_framework',
     'rest_framework.authtoken',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -53,6 +70,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'join_backend_api.urls'
@@ -68,6 +86,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.static'
             ],
         },
     },

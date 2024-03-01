@@ -33,7 +33,6 @@ class ContactTest(TestCase):
         response = self.client.get('/contacts/')
         self.assertEqual(response.status_code, 200) 
         
-        
 class TaskTest(TestCase):
     def setUp(self):
         self.client = Client()
