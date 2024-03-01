@@ -88,17 +88,11 @@ class UpdateContactView(View):
     
       
 class TaskView(View):
-       
-    def get_object(self, pk):
-        try:
-            return TaskModel.objects.get(pk=pk)
-        except TaskModel.DoesNotExist:
-            return None
-          
-    def get(self, request, pk):
-        task = self.get_object(pk)
-        serializer = TaskSerializer(task)
-        return JsonResponse(serializer.data)
+            
+    def get(self, request):
+        task = TaskModel.objects.all()
+        serializer = TaskSerializer(task, many=True)
+        return JsonResponse(serializer.data, safe=False)
     
     def post(self, request):
         data = json.loads(request.body)
@@ -106,4 +100,22 @@ class TaskView(View):
         if serializer.is_valid():
            serializer.save()
            return JsonResponse(serializer.data, status=201)  
+        return JsonResponse(serializer.errors, status=400)
+    
+    
+class UpdateTaskView(View):
+    
+    def get_object(self, pk):
+        try: 
+            return TaskModel.objects.get(pk=pk)
+        except TaskModel.DoesNotExist:
+            return None
+    
+    def patch(self, request, pk):
+        task = self.get_object(pk)
+        data = json.loads(request.body)
+        serializer = TaskSerializer(task, data=data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data)
         return JsonResponse(serializer.errors, status=400)

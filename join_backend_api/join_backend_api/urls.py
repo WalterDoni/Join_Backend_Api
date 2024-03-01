@@ -8,8 +8,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', LoginView.as_view()),
     path('signup/', SignupView.as_view()),
-     path('contacts/', ContactsView.as_view()),
+    path('contacts/', ContactsView.as_view()),
     path('contacts/<int:pk>/', UpdateContactView.as_view()),
-    path('tasks/<int:pk>/', TaskView.as_view())
+    path('tasks/', TaskView.as_view()),
+    path('tasks/<int:pk>/', UpdateTaskView.as_view()),
 ]
 
