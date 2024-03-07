@@ -18,4 +18,4 @@ class ContactSerializer(serializers.ModelSerializer):
 class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = TaskModel
-        fields = ['id', 'title', 'description', 'assigned_to', 'priority', 'category', 'subtask', 'author']
+        fields = ['id', 'color', 'title', 'description', 'assigned_to', 'priority', 'category', 'subtask', 'author']
