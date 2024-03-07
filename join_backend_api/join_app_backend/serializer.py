@@ -15,6 +15,16 @@ class ContactSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'email', 'phonenumber', 'short', 'iconColor', 'author']
 
 
+class SubtaskSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SubtaskModel
+        fields = '__all__'
+        
+class ColorSerialzier(serializers.ModelSerializer):
+    class Meta:
+        model = ColorModel
+        fields = '__all__'
+        
 class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = TaskModel

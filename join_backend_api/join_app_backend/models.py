@@ -16,17 +16,22 @@ class ContactModel(models.Model):
     def __str__(self):
         return f'({self.id}) {self.name}'
     
+class SubtaskModel(models.Model):
+    titleFromSub = models.CharField(max_length=100, blank=True)
     
+class ColorModel(models.Model):
+    colorFromIcon = models.CharField(max_length=30, blank=True)
+      
 class TaskModel(models.Model):
     category = models.CharField(max_length=100, default="No category")
     color = models.CharField(max_length=30, default="0038FF")
     description = models.CharField(max_length=300, default="No description")
-    iconColor = models.JSONField(max_length=1024, blank=True)
+    iconColor = models.ManyToManyField(SubtaskModel)
     id = models.IntegerField(primary_key=True)
     members = models.ManyToManyField(ContactModel)
     priority = models.CharField(max_length=30, default="low")
     section = models.CharField(max_length=50, default="taskCategoryInProgress")
-    subtask = models.JSONField(max_length=1024, blank=True)
+    subtask = models.ManyToManyField(ColorModel)
     title = models.CharField(max_length= 300 , default="No title")
     author = models.ForeignKey(
         User,
