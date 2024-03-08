@@ -20,12 +20,8 @@ class SubtaskSerializer(serializers.ModelSerializer):
         model = SubtaskModel
         fields = '__all__'
         
-class ColorSerialzier(serializers.ModelSerializer):
-    class Meta:
-        model = ColorModel
-        fields = '__all__'
-        
+      
 class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = TaskModel
-        fields = ['id', 'color', 'title', 'description', 'assigned_to', 'priority', 'category', 'subtask', 'author']
+        fields = ['id', 'color', 'title', 'description', 'iconColor', 'priority', 'category', 'subtask', 'author', 'members', 'section',]
