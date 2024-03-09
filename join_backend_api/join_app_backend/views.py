@@ -119,3 +119,21 @@ class UpdateTaskView(View):
             serializer.save()
             return JsonResponse(serializer.data)
         return JsonResponse(serializer.errors, status=400)
+    
+    
+class SubtaskView(View):
+    
+    def get(self, request):
+        subtask = SubtaskModel.objects.all()
+        serializer = SubtaskSerializer(subtask, many=True)
+        return JsonResponse(serializer.data, safe=False)
+    
+    def post(self, request):
+        data = json.loads(request.body)
+        serializer = SubtaskSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status=201)
+        return JsonResponse(serializer.errors, status=400)
+    
+  

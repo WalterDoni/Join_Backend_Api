@@ -18,7 +18,7 @@ class ContactSerializer(serializers.ModelSerializer):
 class SubtaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = SubtaskModel
-        fields = '__all__'
+        fields = ['id', 'titleFromSub']
         
       
 class TaskSerializer(serializers.ModelSerializer):
