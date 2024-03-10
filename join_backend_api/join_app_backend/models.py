@@ -19,6 +19,7 @@ class ContactModel(models.Model):
 
 class SubtaskModel(models.Model):
     titleFromSub = models.CharField(max_length=100, blank=True, default="Test")
+    status = models.CharField(max_length=10, blank=True, default="unchecked" ) 
     
     def __str__(self):
      return f'({self.id}) {self.titleFromSub}'
@@ -26,11 +27,9 @@ class SubtaskModel(models.Model):
 
 class TaskModel(models.Model):
     category = models.CharField(max_length=100, default="No category")
-    color = models.CharField(max_length=30, default="0038FF")
+    categoryColor = models.CharField(max_length=30, default="0038FF")
     description = models.CharField(max_length=300, default="No description")
-    iconColor = models.ManyToManyField(ContactModel, related_name='task_icon_color')
-    id = models.IntegerField(primary_key=True)
-    members = models.ManyToManyField(ContactModel, related_name='task_members')
+    assignedTo = models.ManyToManyField(ContactModel)
     priority = models.CharField(max_length=30, default="low")
     section = models.CharField(max_length=50, default="taskCategoryInProgress")
     subtask = models.ManyToManyField(SubtaskModel)
