@@ -29,7 +29,7 @@ class TaskModel(models.Model):
     category = models.CharField(max_length=100, default="No category")
     categoryColor = models.CharField(max_length=30, default="0038FF")
     description = models.CharField(max_length=300, default="No description")
-    date = models.CharField(max_length=30, default="31.12.2024")
+    date = models.DateField(default='2024-12-31')
     assignedTo = models.ManyToManyField(ContactModel)
     priority = models.CharField(max_length=30, default="low")
     section = models.CharField(max_length=50, default="taskCategoryInProgress")
