@@ -86,7 +86,24 @@ class UpdateContactView(View):
             return JsonResponse(serializer.data)
         return JsonResponse(serializer.errors, status=400)     
     
-      
+    
+class DeleteContactView(View):
+    
+    def get_object(self, pk):
+        try:
+            return ContactModel.objects.get(pk=pk)
+        except ContactModel.DoesNotExist:
+            return None
+        
+    def delete(self, request, pk):  
+        contact = self.get_object(pk)  
+        if contact is not None:
+            contact.delete()
+            return HttpResponse("Deleted!")
+        else:
+            return HttpResponse("Task not found", status=404)    
+        
+        
 class TaskView(View):
             
     def get(self, request):
@@ -120,6 +137,22 @@ class UpdateTaskView(View):
             return JsonResponse(serializer.data)
         return JsonResponse(serializer.errors, status=400)
     
+    
+class DeleteTaskView(View):
+    
+    def get_object(self, pk):
+        try:
+            return TaskModel.objects.get(pk=pk)
+        except TaskModel.DoesNotExist:
+            return None
+        
+    def delete(self, request, pk):  # <-- Accept 'pk' as an argument
+        task = self.get_object(pk)  # Call get_object method to retrieve the task
+        if task is not None:
+            task.delete()
+            return HttpResponse("Deleted!")
+        else:
+            return HttpResponse("Task not found", status=404)
     
 class SubtaskView(View):
     
