@@ -33,7 +33,7 @@ class TaskModel(models.Model):
     assignedTo = models.ManyToManyField(ContactModel)
     priority = models.CharField(max_length=30, default="low")
     section = models.CharField(max_length=50, default="taskCategoryInProgress")
-    subtask = models.ManyToManyField(SubtaskModel)
+    subtask = models.ManyToManyField(SubtaskModel, blank=True)
     title = models.CharField(max_length=300, default="No title")
     author = models.ForeignKey(
         User,
