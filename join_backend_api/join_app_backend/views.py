@@ -10,6 +10,8 @@ from .serializer import *
 import json 
 from django.http import HttpResponse
 from .models import  *
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 class LoginView(ObtainAuthToken):
     
@@ -56,7 +58,7 @@ class SignupView(View):
 class ContactsView(View):
     
     def get(self, request):
-        contacts = ContactModel.objects.all()
+        contacts = ContactModel.objects.all().filter(author=request.user.id)
         serializer = ContactSerializer(contacts, many = True)
         return JsonResponse(serializer.data, safe=False)
     
@@ -105,9 +107,11 @@ class DeleteContactView(View):
         
         
 class TaskView(View):
+    authentification_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
             
     def get(self, request):
-        task = TaskModel.objects.all()
+        task = TaskModel.objects.all().filter(author=request.user.id)
         serializer = TaskSerializer(task, many=True)
         return JsonResponse(serializer.data, safe=False)
     
