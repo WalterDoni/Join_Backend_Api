@@ -12,6 +12,7 @@ from django.http import HttpResponse
 from .models import  *
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
 
 class LoginView(ObtainAuthToken):
     
@@ -55,7 +56,9 @@ class SignupView(View):
             return HttpResponse(str(e))
         
 
-class ContactsView(View):
+class ContactsView(APIView):
+    authentication_classes  = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     
     def get(self, request):
         contacts = ContactModel.objects.all().filter(author=request.user.id)
@@ -106,8 +109,8 @@ class DeleteContactView(View):
             return HttpResponse("Task not found", status=404)    
         
         
-class TaskView(View):
-    authentification_classes = [TokenAuthentication]
+class TaskView(APIView):
+    authentication_classes  = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
             
     def get(self, request):
@@ -158,8 +161,8 @@ class DeleteTaskView(View):
         else:
             return HttpResponse("Task not found", status=404)
     
-class SubtaskView(View):
-    
+class SubtaskView(APIView):
+
     def get(self, request):
         subtask = SubtaskModel.objects.all()
         serializer = SubtaskSerializer(subtask, many=True)
