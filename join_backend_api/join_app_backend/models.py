@@ -20,7 +20,7 @@ class ContactModel(models.Model):
 class SubtaskModel(models.Model):
     titleFromSub = models.CharField(max_length=100, blank=True, default="Test")
     status = models.CharField(max_length=10, blank=True, default="checked" ) 
-    
+ 
     def __str__(self):
      return f'({self.id}) {self.titleFromSub}'
 
