@@ -35,20 +35,22 @@ class SignupView(View):
         username = data.get('username')
         email = data.get('email')
         password = data.get('password')
-        if not username:
-            return HttpResponse('Missing username')
+        
+        if User.objects.filter(username=username).exists():
+            return HttpResponse('Username already exists')
+        if User.objects.filter(email=email).exists():
+            return HttpResponse('Email already exists')
+
         try:
-            if User.objects.filter(username=username).exists():
-                return HttpResponse('User allready exist')
             user = User.objects.create_user(
                 username=username,
                 email=email,
                 password=password
             )
-            return HttpResponse('User succesfully created')
+            token, _ = Token.objects.get_or_create(user=user)
+            return JsonResponse({'token': token.key})
         except Exception as e:
             return HttpResponse(str(e))
-        
 
 class UsersView(APIView):
     authentication_classes  = [TokenAuthentication]
